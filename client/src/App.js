@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { generatePDF } from './services/generatePDF';
 
 function App() {
+  const [name, setName] = useState('');
+
+  const handleChange = event => {
+    setName({ [event.target.name]: event.target.value });
+  };
+
+  const createAndDownload = event => {
+    event.preventDefault();
+    const data = { name };
+    if (name !== '' || name !== undefined || name !== null) {
+      generatePDF(data);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input
+        type="text"
+        placeholder="Name"
+        name="name"
+        onChange={handleChange}
+      />
+      <button onClick={createAndDownload}>Download PDF</button>
     </div>
   );
 }
