@@ -15,7 +15,8 @@ const controller = {
           `./app/pdfUploads/${name.replace(/\s/g, '-')}-${now}.pdf`,
           async (error, resp) => {
             let result = {
-              secure_url: ''
+              secure_url: '',
+              original_filename: ''
             };
 
             /* istanbul ignore next */
@@ -29,7 +30,10 @@ const controller = {
             res.status(201).json({
               status: 201,
               message: 'PDF Successfully created',
-              data: result.secure_url
+              data: {
+                pdf_url: result.secure_url,
+                pdf_name: result.original_filename
+              }
             });
           }
         );

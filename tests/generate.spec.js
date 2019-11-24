@@ -22,6 +22,8 @@ describe('GENERATE PDF', () => {
     expect(response.statusCode).toEqual(201);
     expect(response.body).toHaveProperty('message');
     expect(response.body).toHaveProperty('data');
+    expect(response.body.data).toHaveProperty('pdf_url');
+    expect(response.body.data).toHaveProperty('pdf_name');
     expect(response.body).toHaveProperty('status');
     expect(response.body.status).toBe(201);
     expect(response.body.message).toBe('PDF Successfully created');
