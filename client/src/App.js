@@ -18,13 +18,17 @@ function App() {
 
   return (
     <div className="App">
+      <p className="generate-pdf">Generate PDF</p>
       <input
         type="text"
         placeholder="Name"
         name="name"
+        className="form-input"
         onChange={handleChange}
       />
-      <button onClick={createAndDownload}>Download PDF</button>
+      <button className="form-btn" onClick={createAndDownload}>
+        Download PDF
+      </button>
     </div>
   );
 }

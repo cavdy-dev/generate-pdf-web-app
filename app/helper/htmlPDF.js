@@ -14,7 +14,7 @@ module.exports = name => {
     'November',
     'December'
   ];
-  const today = `${date.getDay()} ${
+  const today = `${date.getDate()} ${
     monthNames[date.getUTCMonth()]
   } ${date.getFullYear()}`;
   return `

@@ -1,29 +1,40 @@
 const pdf = require('html-pdf');
 const pdfTemplate = require('../helper/htmlPDF');
+const cloudinary = require('../helper/cloudinary');
+const date = require('../helper/date');
+const { isTest } = require('../config/config');
 
 const controller = {
-  generatePdf(req, res) {
+  async generatePdf(req, res) {
     const { name } = req.body;
+    const now = date();
     try {
       pdf
         .create(pdfTemplate(name), {})
-        .toFile(`${__dirname}/${name.replace(/\s/g, '-')}.pdf`, error => {
-          if (error) {
-            res.send(Promise.reject());
-          }
+        .toFile(
+          `./app/pdfUploads/${name.replace(/\s/g, '-')}-${now}.pdf`,
+          async (error, resp) => {
+            let result = {
+              secure_url: ''
+            };
 
-          res.send(Promise.resolve());
-        });
+            /* istanbul ignore next */
+            if (!isTest) {
+              result = await cloudinary(
+                resp.filename,
+                `${name.replace(/\s/g, '-')}-${now}`
+              );
+            }
+
+            res.status(201).json({
+              status: 201,
+              message: 'PDF Successfully created',
+              data: result.secure_url
+            });
+          }
+        );
     } catch (error) {
-      throw error;
-    }
-  },
-  getPdf(req, res) {
-    let { name } = req.params;
-    name = name.replace(/\s/g, '-');
-    try {
-      res.sendFile(`${__dirname}/${name}.pdf`);
-    } catch (error) {
+      /* istanbul ignore next */
       throw error;
     }
   }
