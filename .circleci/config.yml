@@ -1,36 +1,42 @@
----
-jobs:
-  build:
-    docker:
-      - image: 'circleci/node:7.10'
-    environment:
+--- 
+jobs: 
+  build: 
+    docker: 
+      - 
+        image: "circleci/node:7.10"
+    environment: 
       CC_TEST_REPORTER_ID: 70c3c5a4f5d573070dd441a7bfb18ec9e102d8472b2a4ff3fbb1fbf51b7f9211
-    steps:
+    steps: 
       - checkout
-      - restore_cache:
-          keys:
-            - 'v1-dependencies-{{ checksum "package.json" }}'
+      - 
+        restore_cache: 
+          keys: 
+            - "v1-dependencies-{{ checksum \"package.json\" }}"
             - v1-dependencies-
-      - run:
+      - 
+        run: 
           command: "npm install\n"
-          name: 'Install dependecies'
-      - save_cache:
-          key: 'v1-dependencies-{{ checksum "package.json" }}'
-          paths:
+          name: "Install dependecies"
+      - 
+        save_cache: 
+          key: "v1-dependencies-{{ checksum \"package.json\" }}"
+          paths: 
             - node_modules
-      - run:
+      - 
+        run: 
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-          name: 'Setup Code Climate test-reporter'
-      - run:
+              curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+              chmod +x ./cc-test-reporter
+          name: "Setup Code Climate test-reporter"
+      - 
+        run: 
           command: |
-            mkdir /tmp/test-results
-            ./cc-test-reporter before-build
-            npm test
-          name: 'Run tests'
-      - run:
+              mkdir /tmp/test-results
+              ./cc-test-reporter before-build
+              npm test
+          name: "Run tests"
+      - 
+        run: 
           command: "./cc-test-reporter after-build -t lcov --exit-code $?\n"
-          name: 'Codeclimate test coverage'
+          name: "Codeclimate test coverage"
     working_directory: ~/api
-version: 2.0
