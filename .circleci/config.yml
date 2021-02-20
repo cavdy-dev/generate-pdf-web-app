@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: 'circleci/node:7.10'
     environment:
-      CC_TEST_REPORTER_ID: dfac6a39237efd363acbf71774311045a7d0680bab0670635cc062bec4b86d59
+      CC_TEST_REPORTER_ID: 70c3c5a4f5d573070dd441a7bfb18ec9e102d8472b2a4ff3fbb1fbf51b7f9211
     steps:
       - checkout
       - restore_cache:
